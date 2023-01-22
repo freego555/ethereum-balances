@@ -1,6 +1,6 @@
-const express = require('express');
-require('express-async-errors');
-const web3 = require('./services/web3');
+import express from 'express';
+import 'express-async-errors';
+import web3 from './services/web3';
 
 const app = express();
 
@@ -34,4 +34,4 @@ app.get('/api/v1/accounts/:address', async (req, res) => {
   });
 });
 
-module.exports = app;
+export default app;

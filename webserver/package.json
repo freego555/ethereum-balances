@@ -2,10 +2,10 @@
   "name": "defiyield-test",
   "version": "0.0.1",
   "description": "",
-  "main": "server.js",
+  "main": "./src/server.js",
   "scripts": {
-    "start": "node ./src/server.js ",
-    "debug": "ndb ./src/server.js"
+    "start": "ts-node-dev --poll src/server.ts",
+    "debug": "ndb ts-node-dev --poll src/server.ts"
   },
   "keywords": [],
   "author": "",
