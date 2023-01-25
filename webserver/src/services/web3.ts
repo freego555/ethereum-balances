@@ -2,6 +2,8 @@ import Web3Package from 'web3';
 import erc20Abi from '../abi/erc20';
 import coingeckoApi from './coingeckoApi';
 
+import Balance from '../interfaces/balance';
+
 if (!process.env.WEB3_HTTP_PROVIDER_URL) {
   throw new Error(
     'Option WEB3_HTTP_PROVIDER_URL should be specified in config.env'
@@ -30,27 +32,31 @@ class Web3 {
   }
 
   static async getAllErc20BalanceOf(walletAddress: string) {
-    let balances;
-
     const tokensList = await coingeckoApi.getTokensList();
     if (!tokensList) {
       throw new Error('Cannot get tokens list');
     }
 
     // Get balance of every token on Ethereum
-    let i = 0;
-    balances = [];
+    let balances: Balance[] = [];
     for (let token of tokensList) {
       if (token.platforms.ethereum) {
-        balances.push({
+        let balanceObject: Balance = {
           symbol: token.symbol,
           name: token.name,
-          balance: await Web3.getOneErc20BalanceOf(
+        };
+
+        try {
+          balanceObject.balance = await Web3.getOneErc20BalanceOf(
             walletAddress,
             token.platforms.ethereum
-          ),
-        });
-        if (i++ >= 10) break; // TEST !!!
+          );
+        } catch (e) {
+          balanceObject.error = (e as Error).toString();
+          console.error(e);
+        }
+
+        balances.push(balanceObject);
       }
     }
 
