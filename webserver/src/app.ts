@@ -28,7 +28,14 @@ app.get('/api/v1/accounts/:address', async (req, res) => {
     walletAddress
   );
 
-  balances = balances.concat(erc20Balances);
+  // Filtering zero balances
+  const erc20NonZeroBalances: Balance[] = erc20Balances.filter(
+    (value: Balance) => {
+      return value.error || value.balance !== '0';
+    }
+  );
+
+  balances = balances.concat(erc20NonZeroBalances);
 
   const responseBody: AccountBalancesResponseBody = {
     status: ResponseStatus.Success,
