@@ -17,8 +17,9 @@ const fetchAndCheckConfigValues = () => {
   }
 
   if (!process.env.WALLET_ADDRESS) {
-    throw new Error(
-      'Config option WALLET_ADDRESS should be specified in config.env'
+    config.walletAddress = '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045';
+    console.warn(
+      `Config option WALLET_ADDRESS isn't specified in config.env. Wallet address will be ${config.walletAddress} by default`
     );
   } else {
     config.walletAddress = process.env.WALLET_ADDRESS;
@@ -33,8 +34,9 @@ const fetchAndCheckConfigValues = () => {
   }
 
   if (!process.env.JOB_INTERVAL_IN_MS) {
-    throw new Error(
-      'Config option JOB_INTERVAL_IN_MS should be specified in config.env'
+    config.jobIntervalInMs = 60000;
+    console.warn(
+      `Config option JOB_INTERVAL_IN_MS isn't specified in config.env. Job interval will be ${config.jobIntervalInMs} ms by default`
     );
   } else {
     config.jobIntervalInMs = +process.env.JOB_INTERVAL_IN_MS;

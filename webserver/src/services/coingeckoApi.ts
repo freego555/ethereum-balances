@@ -1,9 +1,8 @@
 import axios from 'axios';
 
-if (!process.env.COINGECKO_API_URL) {
-  throw new Error('Option COINGECKO_API_URL should be specified in config.env');
-}
-const apiBaseUrl: string = process.env.COINGECKO_API_URL;
+const apiBaseUrl: string = process.env.COINGECKO_API_URL
+  ? process.env.COINGECKO_API_URL
+  : 'https://api.coingecko.com/api/v3';
 
 class coingeckoApi {
   static async getTokensList() {

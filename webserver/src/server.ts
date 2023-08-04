@@ -3,13 +3,12 @@ dotenv.config({ path: './config.env' });
 
 import app from './app';
 
-if (!process.env.SERVER_PORT || !process.env.SERVER_HOST) {
-  throw new Error(
-    'Options SERVER_PORT and SERVER_HOST should be specified in config.env'
-  );
-}
-const serverPort: number = +process.env.SERVER_PORT;
-const serverHost: string = process.env.SERVER_HOST;
+const serverPort: number = process.env.SERVER_PORT
+  ? +process.env.SERVER_PORT
+  : 3000;
+const serverHost: string = process.env.SERVER_HOST
+  ? process.env.SERVER_HOST
+  : 'localhost';
 
 app.listen(serverPort, serverHost, () => {
   console.log(`Listening on ${serverHost}:${serverPort}...`);
